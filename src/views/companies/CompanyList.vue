@@ -156,7 +156,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { FilterMatchMode } from 'primevue/api'
 import Button from 'primevue/button'
 import DataTable from 'primevue/datatable'
@@ -177,7 +177,6 @@ interface CompanyWithApplications extends Company {
 }
 
 const router = useRouter()
-const route = useRoute()
 const uiStore = useUIStore()
 const toastStore = useToastStore()
 const offlineStore = useOfflineDataStore()
@@ -186,7 +185,6 @@ const companyDialog = ref(false)
 const deleteDialog = ref(false)
 const submitted = ref(false)
 const dialogMode = ref<'new' | 'edit'>('new')
-const selectedCompany = ref<{ name: string; id: string } | null>(null)
 const saving = ref(false)
 
 const companyForm = ref({

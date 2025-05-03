@@ -143,7 +143,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { FilterMatchMode } from 'primevue/api'
-import { useRouter, useRoute } from 'vue-router'
 import Button from 'primevue/button'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
@@ -154,7 +153,6 @@ import Textarea from 'primevue/textarea'
 import { supabase } from '../../lib/supabase'
 import { useUIStore } from '../../stores/ui'
 import { useToastStore } from '../../stores/toast'
-import { useOfflineDataStore } from '../../stores/offlineData'
 
 interface Contact {
   id: string;
@@ -173,11 +171,8 @@ interface Company {
   [key: string]: any;
 }
 
-const router = useRouter()
-const route = useRoute()
 const uiStore = useUIStore()
 const toastStore = useToastStore()
-const offlineStore = useOfflineDataStore()
 const loading = ref(false)
 const saving = ref(false)
 const contacts = ref<Contact[]>([])

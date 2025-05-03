@@ -36,6 +36,7 @@ Smart Job-Tracker is a web application that helps job seekers organize and manag
    ```
    VITE_SUPABASE_URL=your_supabase_project_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
    ```
 
 4. Start the development server
@@ -49,14 +50,6 @@ Smart Job-Tracker is a web application that helps job seekers organize and manag
 3. Create job applications linked to companies
 4. Track interviews and contacts
 5. Visit the Insights page to view statistics about your job search
-
-Example of tracking a new job application:
-```javascript
-// Through the UI:
-// 1. Navigate to Applications > Add New
-// 2. Fill out the form with job details
-// 3. Submit to save your application
-```
 
 ## Configuration
 Environment variables:
@@ -90,9 +83,3 @@ Tests are organized by feature and can be found in the `tests` directory.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-Project Maintainer: Your Name - your.email@example.com
-
-For issues and feature requests, please use the [GitHub issue tracker](https://github.com/yourusername/smart-job-tracker/issues). 
-

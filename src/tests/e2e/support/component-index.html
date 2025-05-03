@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Components App</title>
+  <!-- Load the application styles -->
+  <link rel="stylesheet" href="../../../../src/style.css">
+  <!-- Load PrimeVue theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primevue@3/resources/themes/lara-light-blue/theme.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@6.0.1/primeicons.css">
+  <!-- Mock indexedDB for component tests -->
+  <script>
+    // Add indexedDB mock for component tests
+    window.indexedDB = {
+      open: function() {
+        return {
+          result: {
+            createObjectStore: function() {},
+            transaction: function() {
+              return {
+                objectStore: function() {
+                  return {
+                    put: function() {},
+                    get: function() {},
+                    getAll: function() { return []; },
+                    delete: function() {}
+                  };
+                }
+              };
+            }
+          },
+          addEventListener: function() {},
+          onupgradeneeded: null,
+          onsuccess: null,
+          onerror: null
+        };
+      }
+    };
+  </script>
+</head>
+<body>
+  <div data-cy-root></div>
+</body>
+</html> 

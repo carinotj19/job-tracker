@@ -159,10 +159,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, reactive } from 'vue'
+import { ref, computed, onMounted, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
 import InputText from 'primevue/inputtext'
 import AutoComplete from 'primevue/autocomplete'
 import Dropdown from 'primevue/dropdown'
@@ -173,7 +172,7 @@ import Dialog from 'primevue/dialog'
 import LoadingSpinner from '../../components/LoadingSpinner.vue'
 import LoadingButton from '../../components/LoadingButton.vue'
 import { supabase } from '../../lib/supabase'
-import type { JobApplication, Company } from '../../types/database.types'
+import type { Company } from '../../types/database.types'
 import { applicationRules, getValidationState, getValidationMessage } from '../../utils/validations'
 import { useUIStore } from '../../stores/ui'
 import { useToastStore } from '../../stores/toast'
