@@ -59,7 +59,13 @@ const router = createRouter({
     {
       path: '/contacts',
       name: 'contacts',
-      component: () => import('../views/ContactList.vue'),
+      component: () => import('../views/contacts/ContactList.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/insights',
+      name: 'insights',
+      component: () => import('../views/Insights.vue'),
       meta: { requiresAuth: true }
     }
   ]

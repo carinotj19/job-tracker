@@ -46,4 +46,14 @@ app.component('Tag', Tag)
 app.component('Dialog', Dialog)
 app.component('AutoComplete', AutoComplete)
 
+// Register Service Worker for offline support
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker
+        .register('/service-worker.js')
+        .then(reg => console.log('SW registered:', reg.scope))
+        .catch(err => console.error('SW registration failed:', err));
+    });
+  }
+
 app.mount('#app') 

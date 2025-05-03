@@ -11,7 +11,7 @@
               v-if="authStore.user"
               to="/dashboard"
               class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              :class="{ 'border-blue-500 text-gray-900': $route.path === '/dashboard' }"
+              :class="{ 'border-blue-500 text-gray-900': route.path === '/dashboard' }"
             >
               Dashboard
             </router-link>
@@ -19,15 +19,31 @@
               v-if="authStore.user"
               to="/applications"
               class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              :class="{ 'border-blue-500 text-gray-900': $route.path.startsWith('/applications') }"
+              :class="{ 'border-blue-500 text-gray-900': route.path.startsWith('/applications') }"
             >
               Applications
             </router-link>
             <router-link
               v-if="authStore.user"
+              to="/companies"
+              class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+              :class="{ 'border-blue-500 text-gray-900': route.path === '/companies' }"
+            >
+              Companies
+            </router-link>
+            <router-link
+              v-if="authStore.user"
+              to="/contacts"
+              class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+              :class="{ 'border-blue-500 text-gray-900': route.path === '/contacts' }"
+            >
+              Contacts
+            </router-link>
+            <router-link
+              v-if="authStore.user"
               to="/insights"
               class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              :class="{ 'border-blue-500 text-gray-900': $route.path === '/insights' }"
+              :class="{ 'border-blue-500 text-gray-900': route.path === '/insights' }"
             >
               Insights
             </router-link>
@@ -35,7 +51,7 @@
               v-if="isAdmin"
               to="/admin"
               class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              :class="{ 'border-blue-500 text-gray-900': $route.path === '/admin' }"
+              :class="{ 'border-blue-500 text-gray-900': route.path === '/admin' }"
             >
               Admin Panel
             </router-link>
@@ -45,15 +61,16 @@
         <!-- Mobile menu button -->
         <div class="flex items-center">
           <div class="sm:hidden">
-            <button 
+            <button
               type="button"
-              @click="toggleMobileMenu" 
+              @click="toggleMobileMenu"
+              :aria-expanded="isMobileMenuOpen"
               class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
             >
               <span class="sr-only">Open main menu</span>
               <!-- Icon when menu is closed -->
               <svg 
-                v-if="!isMobileMenuOpen" 
+                v-show="!isMobileMenuOpen" 
                 class="block h-6 w-6" 
                 xmlns="http://www.w3.org/2000/svg" 
                 fill="none" 
@@ -65,7 +82,7 @@
               </svg>
               <!-- Icon when menu is open -->
               <svg 
-                v-else 
+                v-show="isMobileMenuOpen" 
                 class="block h-6 w-6" 
                 xmlns="http://www.w3.org/2000/svg" 
                 fill="none" 
@@ -101,12 +118,10 @@
           v-if="authStore.user"
           to="/dashboard"
           class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-          :class="[
-            $route.path === '/dashboard'
-              ? 'border-blue-500 text-blue-700 bg-blue-50'
-              : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
-          ]"
-          @click="isMobileMenuOpen = false"
+          :class="route.path === '/dashboard'
+            ? 'border-blue-500 text-blue-700 bg-blue-50'
+            : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'"
+          @click="closeMobileMenu"
         >
           Dashboard
         </router-link>
@@ -115,24 +130,50 @@
           to="/applications"
           class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
           :class="[
-            $route.path.startsWith('/applications')
+            route.path.startsWith('/applications')
               ? 'border-blue-500 text-blue-700 bg-blue-50'
               : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
           ]"
-          @click="isMobileMenuOpen = false"
+          @click="closeMobileMenu"
         >
           Applications
+        </router-link>
+        <router-link
+          v-if="authStore.user"
+          to="/companies"
+          class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+          :class="[
+            route.path === '/companies'
+              ? 'border-blue-500 text-blue-700 bg-blue-50'
+              : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
+          ]"
+          @click="closeMobileMenu"
+        >
+          Companies
+        </router-link>
+        <router-link
+          v-if="authStore.user"
+          to="/contacts"
+          class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+          :class="[
+            route.path === '/contacts'
+              ? 'border-blue-500 text-blue-700 bg-blue-50'
+              : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
+          ]"
+          @click="closeMobileMenu"
+        >
+          Contacts
         </router-link>
         <router-link
           v-if="authStore.user"
           to="/insights"
           class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
           :class="[
-            $route.path === '/insights'
+            route.path === '/insights'
               ? 'border-blue-500 text-blue-700 bg-blue-50'
               : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
           ]"
-          @click="isMobileMenuOpen = false"
+          @click="closeMobileMenu"
         >
           Insights
         </router-link>
@@ -141,11 +182,11 @@
           to="/admin"
           class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
           :class="[
-            $route.path === '/admin'
+            route.path === '/admin'
               ? 'border-blue-500 text-blue-700 bg-blue-50'
               : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
           ]"
-          @click="isMobileMenuOpen = false"
+          @click="closeMobileMenu"
         >
           Admin Panel
         </router-link>
@@ -158,7 +199,7 @@
         </div>
         <div class="mt-3 flex flex-col gap-1">
           <button
-            @click="handleLogout"
+            @click="handleLogoutMobile"
             class="block w-full text-left px-4 py-2 text-base font-medium text-red-600 hover:bg-gray-100"
             :disabled="authStore.loading"
           >
@@ -171,7 +212,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
@@ -190,15 +231,27 @@ function toggleMobileMenu() {
   console.log('Mobile menu toggled:', isMobileMenuOpen.value)
 }
 
+function closeMobileMenu() {
+  isMobileMenuOpen.value = false
+}
+
 async function handleLogout() {
   await authStore.signOut()
   router.push('/login')
 }
 
+async function handleLogoutMobile() {
+  closeMobileMenu()
+  await handleLogout()
+}
+
+// Close mobile menu when route changes
+watch(route, () => {
+  closeMobileMenu()
+})
+
 onMounted(() => {
-  // Make sure auth is initialized
-  if (!authStore.user) {
-    authStore.initialize()
-  }
+  isMobileMenuOpen.value = false;
+  if (!authStore.user) authStore.initialize();
 })
 </script> 

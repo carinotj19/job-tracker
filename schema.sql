@@ -5,6 +5,10 @@ CREATE TABLE companies (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name TEXT NOT NULL,
     website TEXT,
+    industry TEXT,
+    location TEXT,
+    description TEXT,
+    company_size TEXT,
     notes TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
     user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL
@@ -76,6 +80,11 @@ CREATE POLICY "Users can delete their own companies"
     ON companies FOR DELETE
     USING (auth.uid() = user_id);
 
+-- Allow service role to bypass RLS for seeding
+CREATE POLICY "Service role can bypass RLS"
+    ON companies FOR ALL
+    USING (auth.role() = 'service_role');
+
 -- Contacts policies
 CREATE POLICY "Users can view their own contacts"
     ON contacts FOR SELECT
@@ -92,6 +101,11 @@ CREATE POLICY "Users can update their own contacts"
 CREATE POLICY "Users can delete their own contacts"
     ON contacts FOR DELETE
     USING (auth.uid() = user_id);
+
+-- Allow service role to bypass RLS for seeding
+CREATE POLICY "Service role can bypass RLS"
+    ON contacts FOR ALL
+    USING (auth.role() = 'service_role');
 
 -- Job applications policies
 CREATE POLICY "Users can view their own applications"
@@ -110,6 +124,11 @@ CREATE POLICY "Users can delete their own applications"
     ON job_applications FOR DELETE
     USING (auth.uid() = user_id);
 
+-- Allow service role to bypass RLS for seeding
+CREATE POLICY "Service role can bypass RLS"
+    ON job_applications FOR ALL
+    USING (auth.role() = 'service_role');
+
 -- Interviews policies
 CREATE POLICY "Users can view their own interviews"
     ON interviews FOR SELECT
@@ -125,4 +144,9 @@ CREATE POLICY "Users can update their own interviews"
 
 CREATE POLICY "Users can delete their own interviews"
     ON interviews FOR DELETE
-    USING (auth.uid() = user_id); 
+    USING (auth.uid() = user_id);
+
+-- Allow service role to bypass RLS for seeding
+CREATE POLICY "Service role can bypass RLS"
+    ON interviews FOR ALL
+    USING (auth.role() = 'service_role'); 

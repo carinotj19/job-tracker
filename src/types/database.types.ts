@@ -2,6 +2,10 @@ export interface Company {
   id: string
   name: string
   website?: string
+  industry?: string
+  location?: string
+  description?: string
+  company_size?: string
   notes?: string
   created_at: string
   user_id: string
