@@ -149,6 +149,12 @@
         </div>
       </template>
     </Dialog>
+
+    <Button 
+      severity="danger" 
+      label="Reset Local Database" 
+      @click="confirmResetDatabase" 
+    />
   </div>
 </template>
 
@@ -224,7 +230,7 @@ async function loadApplication() {
       async () => {
         try {
           // Try to get from offline store first
-          const offlineData = await offlineStore.getById('applications', route.params.id as string);
+          const offlineData = await offlineStore.getById('job_applications', route.params.id as string);
           
           if (offlineData) {
             // Format the data for the form
@@ -266,7 +272,7 @@ async function loadApplication() {
           });
           
           // Cache the data
-          await offlineStore.saveData('applications', data);
+          await offlineStore.saveData('job_applications', data);
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : 'Failed to load application';
           uiStore.setError('applicationForm', errorMessage);
@@ -365,7 +371,17 @@ async function handleSubmit() {
     'saveApplication',
     async () => {
       try {
-        const applicationData = {
+        const applicationData: {
+          title: string;
+          company_id: string | undefined;
+          status: string;
+          applied_date: Date;
+          salary_range: string;
+          job_posting_url: string;
+          description: string;
+          notes: string;
+          id?: string;
+        } = {
           title: form.title,
           company_id: form.company?.id,
           status: form.status,
@@ -382,9 +398,9 @@ async function handleSubmit() {
         // online/offline scenarios and synchronization
         if (isEditing.value) {
           applicationData.id = route.params.id as string;
-          result = await offlineStore.saveData('applications', applicationData);
+          result = await offlineStore.saveData('job_applications', applicationData);
         } else {
-          result = await offlineStore.saveData('applications', applicationData);
+          result = await offlineStore.saveData('job_applications', applicationData);
         }
         
         if (result) {
@@ -459,6 +475,11 @@ function resetCompanyForm() {
   companyForm.location = '';
   companyForm.description = '';
   companyForm.company_size = null;
+}
+
+function confirmResetDatabase() {
+  // Implement the logic to confirm and reset the local database
+  console.log('Reset local database');
 }
 </script>
 
