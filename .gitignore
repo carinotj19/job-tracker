@@ -32,8 +32,7 @@ Thumbs.db
 # Supabase
 .supabase/migrations/dev/*
 
-# Optional cache and lock files
-package-lock.json
+# Optional cache and non-npm lock files
 yarn.lock
 pnpm-lock.yaml
 .cache/
