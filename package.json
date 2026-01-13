@@ -46,7 +46,7 @@
     "jsdom": "^26.1.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.4",
-    "typescript": "^5.2.2",
+    "typescript": "5.2.2",
     "vite": "^5.1.0",
     "vitest": "^3.1.2",
     "vue-tsc": "^1.8.27"
