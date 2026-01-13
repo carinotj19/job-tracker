@@ -49,6 +49,14 @@ interface InsightsApplication {
   interviews?: Array<{ interview_date: string }>
 }
 
+type InsightsApplicationWithInterviews = InsightsApplication & {
+  interviews: Array<{ interview_date: string }>
+}
+
+function hasInterviews(app: InsightsApplication): app is InsightsApplicationWithInterviews {
+  return Array.isArray(app.interviews) && app.interviews.length > 0
+}
+
 const statusChartData = ref({
   labels: ['Applied', 'Interviewing', 'Offered', 'Rejected'],
   datasets: [{
@@ -137,9 +145,7 @@ async function loadInsightsData() {
 
       // Calculate key metrics
       const totalApplications = applications.length
-      const applicationsWithInterviews = applications.filter(
-        (app: InsightsApplication) => app.interviews && app.interviews.length > 0
-      ).length
+      const applicationsWithInterviews = applications.filter(hasInterviews).length
       const applicationsWithOffers = applications.filter(
         (app: InsightsApplication) => app.status === 'offered'
       ).length
@@ -149,15 +155,13 @@ async function loadInsightsData() {
       offerRate.value = totalApplications > 0 ? Math.round((applicationsWithOffers / totalApplications) * 100) : 0
 
       // Calculate average response time
-      const applicationsWithResponse = applications.filter(
-        (app: InsightsApplication) => app.interviews && app.interviews.length > 0
-      )
+      const applicationsWithResponse = applications.filter(hasInterviews)
       if (applicationsWithResponse.length > 0) {
         const totalResponseTime = applicationsWithResponse.reduce(
-          (sum: number, app: InsightsApplication) => {
-          const firstInterview = new Date(app.interviews[0].interview_date)
-          const appliedDate = new Date(app.applied_date)
-          return sum + Math.floor((firstInterview.getTime() - appliedDate.getTime()) / (1000 * 60 * 60 * 24))
+          (sum: number, app: InsightsApplicationWithInterviews) => {
+            const firstInterview = new Date(app.interviews[0].interview_date)
+            const appliedDate = new Date(app.applied_date)
+            return sum + Math.floor((firstInterview.getTime() - appliedDate.getTime()) / (1000 * 60 * 60 * 24))
           },
           0
         )
@@ -166,15 +170,15 @@ async function loadInsightsData() {
 
       // Calculate average time to offer
       const applicationsWithOffersAndInterviews = applications.filter(
-        (app: InsightsApplication) =>
-          app.status === 'offered' && app.interviews && app.interviews.length > 0
+        (app): app is InsightsApplicationWithInterviews =>
+          app.status === 'offered' && hasInterviews(app)
       )
       if (applicationsWithOffersAndInterviews.length > 0) {
         const totalTimeToOffer = applicationsWithOffersAndInterviews.reduce(
-          (sum: number, app: InsightsApplication) => {
+          (sum: number, app: InsightsApplicationWithInterviews) => {
             const lastInterview = new Date(app.interviews[app.interviews.length - 1].interview_date)
-          const appliedDate = new Date(app.applied_date)
-          return sum + Math.floor((lastInterview.getTime() - appliedDate.getTime()) / (1000 * 60 * 60 * 24))
+            const appliedDate = new Date(app.applied_date)
+            return sum + Math.floor((lastInterview.getTime() - appliedDate.getTime()) / (1000 * 60 * 60 * 24))
           },
           0
         )
