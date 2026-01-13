@@ -113,7 +113,7 @@ import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
 import { supabase } from '../../lib/supabase'
 import { contactRules, getValidationState, getValidationMessage } from '../../utils/validations'
-import type { Contact, Company } from '../../types/database.types'
+import type { Company } from '../../types/database.types'
 
 const router = useRouter()
 const route = useRoute()

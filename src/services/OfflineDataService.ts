@@ -54,7 +54,7 @@ export class OfflineDataService {
   
   private initDatabase(): Promise<IDBPDatabase<JobTrackerDB>> {
     return openDB<JobTrackerDB>('job-tracker-db', 2, {
-      upgrade(db, oldVersion, newVersion) {
+      upgrade(db) {
         // Create stores if they don't exist
         if (!db.objectStoreNames.contains('job_applications')) {
           db.createObjectStore('job_applications', { keyPath: 'id' });
@@ -105,7 +105,7 @@ export class OfflineDataService {
     }
   }
 
-  private handleNetworkChange(event: Event): void {
+  private handleNetworkChange(): void {
     this.networkStatus = navigator.onLine;
     if (this.networkStatus) {
       // When we come back online, try to sync

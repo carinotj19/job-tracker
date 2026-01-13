@@ -170,7 +170,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Chart from 'primevue/chart'
 import Button from 'primevue/button'
@@ -256,7 +256,7 @@ async function loadDashboardData() {
       .select('status')
 
     if (statusCounts) {
-      const counts = statusCounts.reduce((acc: Record<string, number>, curr) => {
+      const counts = statusCounts.reduce((acc: Record<string, number>, curr: { status: string }) => {
         acc[curr.status] = (acc[curr.status] || 0) + 1
         return acc
       }, {})

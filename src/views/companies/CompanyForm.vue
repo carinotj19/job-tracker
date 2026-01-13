@@ -147,7 +147,6 @@ import { useToastStore } from '../../stores/toast'
 import { useOfflineDataStore } from '../../stores/offlineData'
 import LoadingButton from '../../components/LoadingButton.vue'
 import LoadingSpinner from '../../components/LoadingSpinner.vue'
-import type { Company } from '../../types/database.types'
 
 const router = useRouter()
 const route = useRoute()

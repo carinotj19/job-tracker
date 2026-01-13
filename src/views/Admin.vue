@@ -80,11 +80,18 @@ import { supabase } from '../lib/supabase'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
+interface AdminUser {
+  id: string
+  email: string
+  created_at: string
+  last_sign_in_at?: string | null
+}
+
 const router = useRouter()
 const authStore = useAuthStore()
-const users = ref([])
+const users = ref<AdminUser[]>([])
 const loading = ref(true)
-const error = ref(null)
+const error = ref<string | null>(null)
 
 // Check if user is admin
 const checkAdmin = async () => {
@@ -105,7 +112,7 @@ const fetchUsers = async () => {
     if (err) throw err
     users.value = data
   } catch (err) {
-    error.value = err.message
+    error.value = err instanceof Error ? err.message : 'Failed to load users'
   } finally {
     loading.value = false
   }
@@ -125,7 +132,7 @@ const deleteUser = async (userId: string) => {
     if (err) throw err
     await fetchUsers()
   } catch (err) {
-    error.value = err.message
+    error.value = err instanceof Error ? err.message : 'Failed to delete user'
   } finally {
     loading.value = false
   }

@@ -19,7 +19,9 @@ export class SyncService {
 		// Listen for sync events
 		window.addEventListener(
 			"data-sync-requested",
-			this.handleSyncRequest.bind(this) as EventListener
+			(event) => {
+				void this.handleSyncRequest(event as CustomEvent);
+			}
 		);
 	}
 

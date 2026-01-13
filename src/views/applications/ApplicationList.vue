@@ -216,7 +216,7 @@ import { useUIStore } from '../../stores/ui'
 import { useToastStore } from '../../stores/toast'
 import { useOfflineDataStore } from '../../stores/offlineData'
 import LoadingButton from '../../components/LoadingButton.vue'
-import type { JobApplication, Company } from '../../types/database.types'
+import type { JobApplication } from '../../types/database.types'
 
 interface ApplicationWithCompany extends JobApplication {
   companies?: {

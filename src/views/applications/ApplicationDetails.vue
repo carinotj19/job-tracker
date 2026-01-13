@@ -361,7 +361,7 @@ async function deleteInterviewConfirmed() {
   }
 }
 
-async function onInterviewSaved(interview: Interview) {
+async function onInterviewSaved() {
   // If this is the first interview, update application status
   if (application.value && application.value.status === 'applied') {
     try {
